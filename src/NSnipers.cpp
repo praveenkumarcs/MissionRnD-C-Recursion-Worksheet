@@ -43,6 +43,85 @@ P.S: The Above Problem is just a modified version of a popular BackTracking prob
 */
 
 #include "stdafx.h"
+
+#define and &&
+#define or ||
+#define equals ==
+#define true 1
+#define false 0
+
+int isFeasible(int *battlefield, int i, int j, int n){
+
+	int row, col;
+	row = i; col = j;
+	while (row >= 0 and col >= 0){
+		if (battlefield[row*n + col] != 1){
+			row--;
+			col--;
+		}
+		else
+			break;
+	}
+	if (row >= 0 and col >= 0)
+		return false;
+
+	row = i; col = j;
+	while (row >= 0 and col <= n - 1){
+		if (battlefield[row*n + col] != 1){
+			row--;
+			col++;
+		}
+		else
+			break;
+	}
+	if (row >= 0 and col <= n - 1)
+		return false;
+
+	row = i; col = j;
+	while (row >= 0){
+		if (battlefield[row*n + col] != 1)
+			row--;
+		else
+			break;
+	}
+	if (row >= 0)
+		return false;
+	else
+		return true;
+
+}
+
+
+int solveBoard(int *battlefield, int n, int i){
+	int j;
+
+	if (i == n)
+		return true;
+
+	for (j = 0; j < n; j++){
+		if (isFeasible(battlefield, i, j, n)){
+			battlefield[i*n + j] = 1;
+			if (solveBoard(battlefield, n, i + 1) == true)
+				return true;
+		}
+		battlefield[i*n + j] = 0;
+	}
+	
+	return false;
+}
+
+
+
 int solve_nsnipers(int *battlefield, int n){
-	return 0;
+
+	int stat = 0;
+	if (battlefield == NULL or n < 0)
+		return 0;
+	stat = solveBoard(battlefield, n,0);
+
+	if (stat)
+		return true;
+	else
+		return false;
+
 }

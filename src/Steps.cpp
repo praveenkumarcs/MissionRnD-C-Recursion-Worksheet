@@ -24,7 +24,29 @@
 #include "stdafx.h"
 
 
+int fact(int n){
+	int f = 1,i;
+	for (i = n; i >= 1; i--)
+		f = f*i;
+	return f;
+
+}
+
 int get_steps(int s)
 {
-	return 0;
+	int i, sum = 1,twos = 0;
+	if (s <= 0)
+		return 0;
+
+	if (s % 2 == 0)
+		twos = s / 2;
+	else
+		twos = (s - 1) / 2;
+
+	for (i = 1; i <= twos; i++){
+		sum += fact(s - i * 2 + i) / (fact(i)*fact(s-i*2));
+	}
+
+	return sum;
+
 }

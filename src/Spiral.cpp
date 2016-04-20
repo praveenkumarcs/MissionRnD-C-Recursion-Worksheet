@@ -33,8 +33,55 @@ Note : Check the function Parameters ,Its a double pointer .
 
 #include "stdafx.h"
 #include<stdlib.h>
+#define and && 
+#define or ||
+
+void spiralCopy(int *ptr,int rows,int cols,int **array){
+
+	int i, j, k, pos = 0;
+
+	i = 0; j = 0; k = 0;
+	while (i < rows and j < cols){
+
+		/*copy the first row*/
+		for (k = j; k < cols; k++)
+			ptr[pos++] = array[i][k];
+		i++;
+
+		/*copy the last column*/
+		for (k = i; k < rows; k++)
+			ptr[pos++] = array[k][cols - 1];
+		cols--;
+
+		/*copy the last row*/
+		if (i < rows){
+			for (k = cols - 1; k >= j; k--)
+				ptr[pos++] = array[rows-1][k];
+			rows--;
+		}
+
+		/*copy the first column*/
+		if (j < cols){
+			for (k = rows - 1; k >= i; k--)
+				ptr[pos++] = array[k][j];
+			j++;
+		}
+
+	}
+
+}
 
 int *spiral(int rows, int columns, int **input_array)
 {
-	return NULL;
+	int *ptr = NULL;
+
+	if (rows <= 0 or columns <= 0 or input_array == NULL)
+		return NULL;
+
+	ptr = (int *)malloc(rows*columns*sizeof(int));
+
+	spiralCopy(ptr, rows, columns, input_array);
+
+	return ptr;
+
 }
